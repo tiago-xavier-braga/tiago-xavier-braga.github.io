@@ -1,24 +1,27 @@
-# Tiago Xavier Braga
+# tiago-xavier-braga.github.io
 
-Game Developer — Unity & C#
+Personal portfolio website: shipped games, experience and contact.
 
-## About
+Live at https://tiago-xavier-braga.github.io/
 
-Unity and C# developer focused on immersive experiences across WebGL, mobile, and VR — from multiplayer systems to interactive simulations. Background sits at the intersection of software engineering and game design: clean architecture, performance, and player-facing clarity.
+## Structure
 
-## Experience
+- `index.html`: home page
+- `projects.html`: projects page
+- `data/profile.json`: all site content (profile, experience, projects, links)
+- `js/`: page scripts
+- `style/`: stylesheets, with design tokens in `tokens.css`
 
-- **Xavi Games** — Game Developer (2025–present). Solo indie studio; concept to release, full ownership of development, design, and deployment.
-- **Haus** — Game Developer (2023–present). High-fidelity simulators in Unity for professional training environments — physics, AI, and precision mechanics.
-- **Pequi Hills Studio** — Co-founder & Game Developer (2022–2024). Shaped the studio's niche and core mechanics; implemented gameplay systems in Unity.
+## Running locally
 
-## Shipped
+The pages load `data/profile.json` with `fetch`, so open them through a local server instead of the file system:
 
-**Dominoes Colors** — puzzle game, released on Steam.
-[store.steampowered.com/app/2372580](https://store.steampowered.com/app/2372580/Dominoes_Colors/)
+```sh
+python -m http.server
+```
 
-More games and prototypes on [itch.io](https://xavigames.itch.io/).
+Then open http://localhost:8000/.
 
-## Elsewhere
+## Deploy
 
-[Portfolio](https://tiago-xavier-braga.github.io/tiago-xavier-braga/) · [LinkedIn](https://linkedin.com/in/tiago-xavier-braga) · [itch.io](https://xavigames.itch.io/) · [Email](mailto:braga.tiagoxavier@gmail.com)
+GitHub Pages publishes the `main` branch from the repository root on every push.
