@@ -1,5 +1,7 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpg';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 
@@ -14,7 +16,7 @@ const platformLabels = { steam: 'Steam', itchio: 'itch.io', playstore: 'Google P
 
 <Base title="Links" minimal>
   <div class="page">
-    <div class="avatar" aria-hidden="true"></div>
+    <Image class="avatar" src={avatar} alt="" width={192} loading="eager" />
     <header class="identity">
       <h1 class="h2">{profile.name}</h1>
       <p class="body-sm muted">{profile.role}</p>
@@ -66,7 +68,7 @@ const platformLabels = { steam: 'Steam', itchio: 'itch.io', playstore: 'Google P
     width: 96px;
     height: 96px;
     border-radius: var(--radius-full);
-    background: var(--color-accent);
+    object-fit: cover;
   }
 
   .identity {

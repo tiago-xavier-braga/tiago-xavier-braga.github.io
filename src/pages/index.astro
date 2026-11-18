@@ -1,5 +1,7 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpg';
 import Base from '../layouts/Base.astro';
 import Highlight from '../components/Highlight.astro';
 import SectionHeader from '../components/SectionHeader.astro';
@@ -32,7 +34,7 @@ const contacts = (await getCollection('links', ({ data }) => data.contact)).sort
           {profile.cv && <a class="btn btn-ghost" href={profile.cv}>Download CV</a>}
         </div>
       </div>
-      <div class="avatar" aria-hidden="true"></div>
+      <Image class="avatar" src={avatar} alt={profile.name} width={400} loading="eager" />
     </div>
     <dl class="stats">
       {
@@ -135,8 +137,11 @@ const contacts = (await getCollection('links', ({ data }) => data.contact)).sort
   }
 
   .avatar {
+    width: 100%;
+    height: auto;
     aspect-ratio: 1;
     border-radius: var(--radius-full);
+    object-fit: cover;
     background: var(--color-accent);
   }
 
