@@ -41,27 +41,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>
-    <div id="poly-bg" aria-hidden="true"></div>
     {!minimal && <Nav current={current} />}
     <main>
       <slot />
     </main>
     {!minimal && <Footer />}
     <script>
-      import { initBackground } from '../scripts/background';
       import { initReveal } from '../scripts/reveal';
-      initBackground();
       initReveal();
     </script>
   </body>
 </html>
-
-<style is:global>
-  #poly-bg {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
-    pointer-events: none;
-  }
-</style>

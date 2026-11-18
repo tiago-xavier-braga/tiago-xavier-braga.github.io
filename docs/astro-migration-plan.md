@@ -148,7 +148,7 @@ The order depends on the main audience, which is not decided yet:
 
 Tasks:
 1. Rewrite `src/styles/tokens.css` with the tokens above (`--color-*`, `--space-*`, `--radius-*`, `--shadow-*`, type scale), with the dark theme under `[data-theme=dark]`. Remove the paper/rust/moss/gold tokens.
-2. Recolor the low-poly background. Use pastel off-white tones, plus a few rare yellow and orange triangles.
+2. ~~Recolor the low-poly background.~~ Removed: the Penpot design uses a flat `bg`.
 3. Use the toucan mark (exported as SVG from Penpot) as the favicon, the nav logo and the avatar on `/links/`.
 4. Use media-first cards: show the cover, or a short `.webm` loop on hover.
 5. Add View Transitions between a card and its project page.

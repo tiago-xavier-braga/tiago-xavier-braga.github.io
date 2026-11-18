@@ -14,7 +14,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  position: relative;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
