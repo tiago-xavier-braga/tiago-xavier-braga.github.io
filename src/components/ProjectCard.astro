@@ -1,0 +1,88 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, kicker, summary, tags, cover, categories } = project.data;
+---
+
+<article class="card reveal" data-categories={categories.join(' ')}>
+  {cover ? <Image class="cover" src={cover} alt="" width={768} /> : <div class="cover" />}
+  <div class="body">
+    <p class="overline">{kicker}</p>
+    <h3 class="h2"><a href={`/projects/${project.id}/`}>{title}</a></h3>
+    <p class="summary body-sm muted">{summary}</p>
+    <ul class="tags">{tags.map((tag) => <li class="tag">{tag}</li>)}</ul>
+    <span class="arrow-link" aria-hidden="true">View project <Icon name="arrow-right" /></span>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid transparent;
+    border-radius: var(--radius-xl);
+    background: var(--color-surface-raised);
+    box-shadow: var(--shadow-1);
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--color-link);
+    box-shadow: var(--shadow-3);
+  }
+
+  .card:hover .arrow-link {
+    gap: 12px;
+  }
+
+  .card:focus-within {
+    box-shadow: var(--shadow-3), var(--focus-ring);
+  }
+
+  .cover {
+    height: 240px;
+    width: 100%;
+    object-fit: cover;
+    background: var(--color-border);
+  }
+
+  .body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 28px;
+  }
+
+  .overline {
+    color: var(--color-text-muted);
+  }
+
+  .body a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .body a:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .summary {
+    flex: 1;
+  }
+
+  .arrow-link {
+    margin-top: var(--space-8);
+  }
+</style>

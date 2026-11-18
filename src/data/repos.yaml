@@ -1,0 +1,27 @@
+- id: leaftween
+  order: 1
+  name: LeafTween
+  description: "A tweening engine for Godot, built from scratch: object pooling, Curve-driven easing, Bezier motion and stagger helpers."
+  url: https://github.com/tiago-xavier-braga/LeafTween
+  language: GDScript
+  stars: 1
+  topics: [godot, tween, godot-addon]
+  pinned: true
+- id: meshsmith
+  order: 2
+  name: Meshsmith
+  description: Turns a reference photo or a text prompt into a game-ready 3D asset for Unity, Godot and Blender.
+  url: https://github.com/tiago-xavier-braga/Meshsmith
+  language: JavaScript
+  stars: 0
+  topics: [gltf, procedural-generation, threejs]
+  pinned: true
+- id: godotaddons
+  order: 3
+  name: GodotAddons
+  description: Monorepo of reusable addons for the Godot Engine.
+  url: https://github.com/tiago-xavier-braga/GodotAddons
+  language: GDScript
+  stars: 1
+  topics: [gdscript, godot]
+  pinned: true

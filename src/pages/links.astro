@@ -1,0 +1,103 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+
+const profile = (await getEntry('profile', 'main'))!.data;
+const links = (await getCollection('links')).sort((a, b) => a.data.order - b.data.order);
+const latest = (await getCollection('projects', ({ data }) => data.featured && data.categories.includes('game'))).sort(
+  (a, b) => (b.data.released?.getTime() ?? 0) - (a.data.released?.getTime() ?? 0) || a.data.order - b.data.order,
+)[0];
+
+const platformLabels = { steam: 'Steam', itchio: 'itch.io', playstore: 'Google Play', github: 'GitHub' };
+---
+
+<Base title="Links" minimal>
+  <div class="page">
+    <div class="avatar" aria-hidden="true"></div>
+    <header class="identity">
+      <h1 class="h2">{profile.name}</h1>
+      <p class="body-sm muted">{profile.role}</p>
+    </header>
+
+    {
+      latest && (
+        <article class="latest">
+          <div class="cover" />
+          <div class="latest-body">
+            <p class="overline muted">
+              Latest release{latest.data.platform && ` · ${platformLabels[latest.data.platform]}`}
+            </p>
+            <h2 class="h3">{latest.data.title}</h2>
+            <a class="arrow-link" href={`/projects/${latest.id}/`}>
+              View project <Icon name="arrow-right" />
+            </a>
+          </div>
+        </article>
+      )
+    }
+
+    <nav class="links" aria-label="Links">
+      {
+        links.map(({ data }) => (
+          <a class:list={['btn', data.highlight ? 'btn-accent' : 'btn-ghost']} href={data.url}>
+            {data.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <p class="caption muted">© {new Date().getFullYear()} {profile.name}</p>
+  </div>
+</Base>
+
+<style>
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-32);
+    width: min(100% - 48px, 420px);
+    margin-inline: auto;
+    padding-block: 56px var(--space-48);
+  }
+
+  .avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent);
+  }
+
+  .identity {
+    display: grid;
+    gap: var(--space-8);
+    text-align: center;
+  }
+
+  .latest {
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    background: var(--color-surface-raised);
+    box-shadow: var(--shadow-1);
+  }
+
+  .cover {
+    aspect-ratio: 16 / 9;
+    background: var(--color-border);
+  }
+
+  .latest-body {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-8);
+    padding: 20px var(--space-24) var(--space-24);
+  }
+
+  .links {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+  }
+</style>

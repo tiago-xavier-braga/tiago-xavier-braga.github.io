@@ -1,0 +1,67 @@
+---
+import '@fontsource-variable/outfit';
+import '@fontsource-variable/inter-tight';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: 'work' | 'open-source';
+  minimal?: boolean;
+}
+
+const {
+  title,
+  description = 'Software developer building games, XR training simulators and tools in Unity, Godot and the web.',
+  current,
+  minimal = false,
+} = Astro.props;
+
+const fullTitle = title ? `${title} · Tiago Xavier Braga` : 'Tiago Xavier Braga · Software developer';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#f1f1f1" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <div id="poly-bg" aria-hidden="true"></div>
+    {!minimal && <Nav current={current} />}
+    <main>
+      <slot />
+    </main>
+    {!minimal && <Footer />}
+    <script>
+      import { initBackground } from '../scripts/background';
+      import { initReveal } from '../scripts/reveal';
+      initBackground();
+      initReveal();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  #poly-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+</style>

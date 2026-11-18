@@ -1,0 +1,48 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  overline: string;
+  title: string;
+  link?: { href: string; label: string };
+}
+
+const { overline, title, link } = Astro.props;
+---
+
+<header class="section-header">
+  <div class="titles">
+    <p class="overline">{overline}</p>
+    <h2 class="h1">{title}</h2>
+  </div>
+  {
+    link && (
+      <a class="arrow-link" href={link.href}>
+        {link.label}
+        <Icon name="arrow-right" />
+      </a>
+    )
+  }
+</header>
+
+<style>
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-16);
+    margin-bottom: var(--space-48);
+  }
+
+  .titles {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  @media (max-width: 640px) {
+    .section-header {
+      margin-bottom: var(--space-32);
+    }
+  }
+</style>

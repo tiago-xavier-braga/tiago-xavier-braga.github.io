@@ -1,0 +1,19 @@
+main:
+  name: Tiago Xavier Braga
+  role: Software developer · Games, XR & tools
+  headline: I build interactive software that feels good to use.
+  highlight: feels good
+  lead: Developer with 4 years building games, VR/AR/MR training simulators and tools in Unity, Godot and the web. Open to roles in games, XR and software development.
+  stats:
+    - value: 4+
+      label: Years of experience
+    - value: "12"
+      label: Projects shipped
+    - value: 10+
+      label: XR simulators delivered
+    - value: "3"
+      label: "Store launches: Steam, Xbox, Switch"
+  about:
+    - Developer with 4 years of experience in Unity/C# and Godot/GDScript, also working with JavaScript, TypeScript and C++. I build games, XR training simulators and tools, with a focus on clean architecture, performance and clear interactions.
+    - My work covers gameplay, multiplayer, physics, UI, performance and tools programming, shipped to PC, web, mobile, XR headsets and consoles (Steam, Xbox and Nintendo Switch).
+    - "I'm open to roles beyond games: XR, simulation, tools and general software development."

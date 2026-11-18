@@ -1,0 +1,248 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Highlight from '../components/Highlight.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import RepoCard from '../components/RepoCard.astro';
+import ExperienceItem from '../components/ExperienceItem.astro';
+
+const byOrder = (a: { data: { order: number } }, b: { data: { order: number } }) => a.data.order - b.data.order;
+const profile = (await getEntry('profile', 'main'))!.data;
+const featured = (await getCollection('projects', ({ data }) => data.featured))
+  .sort(byOrder)
+  .slice(0, 3);
+const repos = (await getCollection('repos', ({ data }) => data.pinned)).sort(byOrder);
+const experience = (await getCollection('experience')).sort(byOrder);
+const contacts = (await getCollection('links', ({ data }) => data.contact)).sort(
+  (a, b) => Number(b.data.primary) - Number(a.data.primary) || byOrder(a, b),
+);
+---
+
+<Base>
+  <section class="hero container">
+    <div class="hero-main">
+      <div class="hero-text">
+        <p class="overline">{profile.role}</p>
+        <h1 class="display"><Highlight text={profile.headline} word={profile.highlight} /></h1>
+        <p class="lead">{profile.lead}</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#work">View work</a>
+          <a class="btn btn-ghost" href="#contact">Contact</a>
+          {profile.cv && <a class="btn btn-ghost" href={profile.cv}>Download CV</a>}
+        </div>
+      </div>
+      <div class="avatar" aria-hidden="true"></div>
+    </div>
+    <dl class="stats">
+      {
+        profile.stats.map((stat) => (
+          <div>
+            <dt class="body-sm muted">{stat.label}</dt>
+            <dd class="h1">{stat.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section id="work" class="section container">
+    <SectionHeader
+      overline="Selected work"
+      title="Projects"
+      link={{ href: '/projects/', label: 'See all projects' }}
+    />
+    <div class="grid">
+      {featured.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+
+  <section id="open-source" class="section container">
+    <SectionHeader
+      overline="Tools & libraries"
+      title="Open source"
+      link={{ href: '/repos/', label: 'All repositories' }}
+    />
+    <div class="grid">
+      {repos.map((repo) => <RepoCard repo={repo} />)}
+    </div>
+  </section>
+
+  <section id="experience" class="section container">
+    <SectionHeader overline="Experience" title="Career path" />
+    <ol>
+      {experience.map((job) => <ExperienceItem job={job} />)}
+    </ol>
+  </section>
+
+  <section id="about" class="section container about">
+    <div class="titles">
+      <p class="overline">About</p>
+      <h2 class="h1">Who I am</h2>
+    </div>
+    <div class="prose about-text">
+      {profile.about.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <section id="contact" class="contact section">
+    <div class="container contact-inner">
+      <p class="overline">Contact</p>
+      <h2 class="display"><Highlight text="Let's work together." word="together" /></h2>
+      <div class="actions">
+        {
+          contacts.map(({ data }) => (
+            <a class:list={['btn', data.primary ? 'btn-primary' : 'btn-ghost']} href={data.url}>
+              {data.label}
+            </a>
+          ))
+        }
+        {profile.cv && <a class="btn btn-ghost" href={profile.cv}>Download CV</a>}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    gap: var(--space-48);
+    padding-block: var(--space-96) 72px;
+  }
+
+  .hero-main {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    align-items: center;
+    gap: var(--space-64);
+  }
+
+  .hero-text {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-24);
+  }
+
+  .hero-text .display {
+    max-width: 736px;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-16);
+    margin-top: var(--space-8);
+  }
+
+  .avatar {
+    aspect-ratio: 1;
+    border-radius: var(--radius-full);
+    background: var(--color-accent);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-24);
+    margin: 0;
+    padding-top: var(--space-48);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .stats div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: var(--space-8);
+  }
+
+  .stats dd {
+    margin: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-24);
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: var(--space-96);
+  }
+
+  .titles {
+    display: grid;
+    align-content: start;
+    gap: var(--space-8);
+  }
+
+  .about-text {
+    display: grid;
+    gap: var(--space-24);
+  }
+
+  .contact {
+    background: var(--color-surface);
+  }
+
+  .contact-inner {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-24);
+  }
+
+  .contact .actions {
+    margin-top: var(--space-16);
+  }
+
+  @media (max-width: 1100px) {
+    .hero-main {
+      grid-template-columns: 1fr 280px;
+    }
+
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about {
+      grid-template-columns: 1fr;
+      gap: var(--space-32);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      padding-block: var(--space-48);
+    }
+
+    .hero-main {
+      grid-template-columns: 1fr;
+      gap: var(--space-32);
+    }
+
+    .avatar {
+      order: -1;
+      width: 144px;
+    }
+
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .actions {
+      flex-direction: column;
+      align-self: stretch;
+    }
+
+    .contact-inner .actions,
+    .hero-text .actions {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,68 @@
+:root {
+  --color-bg: #f1f1f1;
+  --color-surface: #f8f8f8;
+  --color-surface-raised: #ffffff;
+  --color-border: #afb7b9;
+  --color-text: #03191e;
+  --color-text-muted: #4d5b5f;
+  --color-text-subtle: #5e6c70;
+  --color-primary: #03191e;
+  --color-on-primary: #f1f1f1;
+  --color-link: #d01314;
+  --color-accent: #f3a712;
+  --color-accent-2: #ff1b1c;
+
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
+  --shadow-1: 0 1px 3px 0 rgb(3 25 30 / 0.08);
+  --shadow-2: 0 6px 16px -2px rgb(3 25 30 / 0.1);
+  --shadow-3: 0 16px 40px -8px rgb(3 25 30 / 0.16);
+  --focus-ring: 0 0 0 4px rgb(243 167 18 / 0.45);
+
+  --font-display: 'Outfit Variable', system-ui, sans-serif;
+  --font-body: 'Inter Tight Variable', system-ui, sans-serif;
+
+  --text-display: 72px;
+  --text-h1: 48px;
+  --text-h2: 28px;
+  --text-h3: 22px;
+  --text-lead: 22px;
+  --text-body: 18px;
+  --text-body-sm: 16px;
+  --text-label: 16px;
+  --text-caption: 14px;
+
+  --page-gutter: 120px;
+  --section-space: var(--space-96);
+}
+
+@media (max-width: 1100px) {
+  :root {
+    --page-gutter: 48px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --text-display: 44px;
+    --text-h1: 32px;
+    --text-h2: 24px;
+    --text-lead: 18px;
+    --page-gutter: 24px;
+    --section-space: var(--space-64);
+  }
+}
+

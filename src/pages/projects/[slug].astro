@@ -1,0 +1,271 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Highlight from '../../components/Highlight.astro';
+import Icon from '../../components/Icon.astro';
+
+export const getStaticPaths = (async () => {
+  const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, next: projects[(i + 1) % projects.length] },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project, next } = Astro.props;
+const { Content } = await render(project);
+const data = project.data;
+
+const storeLabels = {
+  steam: 'Play on Steam',
+  itchio: 'Play on itch.io',
+  playstore: 'Get it on Google Play',
+  github: 'View on GitHub',
+};
+
+const meta = [
+  ['Role', data.role],
+  ['Period', data.period],
+  ['Platforms', data.platforms],
+  ['Engine', data.engine],
+].filter((item): item is [string, string] => Boolean(item[1]));
+
+const details = [
+  ['Client', data.client],
+  ['Year', data.period],
+  ['Platforms', data.platforms],
+].filter((item): item is [string, string] => Boolean(item[1]));
+---
+
+<Base title={data.title} description={data.summary} current="work">
+  <header class="container header">
+    <a class="arrow-link back" href="/projects/"><Icon name="arrow-left" /> All projects</a>
+    <p class="overline muted">{data.kicker}</p>
+    <h1 class="display"><Highlight text={data.title} word={data.highlight} /></h1>
+    <p class="lead">{data.summary}</p>
+  </header>
+
+  <div class="container">
+    <dl class="meta">
+      {
+        meta.map(([label, value]) => (
+          <div>
+            <dt class="overline muted">{label}</dt>
+            <dd class="label">{value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    {
+      data.trailer ? (
+        <iframe
+          class="media"
+          src={`https://www.youtube-nocookie.com/embed/${data.trailer}`}
+          title={`${data.title} trailer`}
+          loading="lazy"
+          allow="encrypted-media; picture-in-picture"
+          allowfullscreen
+        />
+      ) : (
+        data.cover && <Image class="media" src={data.cover} alt="" width={1200} />
+      )
+    }
+
+    <div class="body">
+      <div class="prose content">
+        <Content />
+      </div>
+      <aside class="details">
+        <h2 class="h3">Details</h2>
+        <dl>
+          {
+            details.map(([label, value]) => (
+              <div>
+                <dt class="body-sm muted">{label}</dt>
+                <dd class="label">{value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+        <ul class="tags">{data.tags.map((tag) => <li class="tag">{tag}</li>)}</ul>
+        {data.url && data.platform && <a class="btn btn-primary" href={data.url}>{storeLabels[data.platform]}</a>}
+      </aside>
+    </div>
+
+    {
+      data.screenshots.length > 0 && (
+        <section class="screenshots">
+          <h2 class="h2">Screenshots</h2>
+          <div class="shots">
+            {data.screenshots.map((shot) => (
+              <Image src={shot} alt="" width={768} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+
+  {
+    next.id !== project.id && (
+      <section class="next">
+        <div class="container next-inner">
+          <p class="overline">Next project</p>
+          <div class="next-row">
+            <p class="h1">{next.data.title}</p>
+            <a class="arrow-link" href={`/projects/${next.id}/`}>
+              View project <Icon name="arrow-right" />
+            </a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .header {
+    display: grid;
+    justify-items: start;
+    gap: var(--space-24);
+    padding-block: var(--space-48);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-24) var(--space-64);
+    margin: 0 0 var(--space-48);
+    padding-block: var(--space-24);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .meta div {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .media {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: var(--radius-xl);
+    background: var(--color-border);
+    object-fit: cover;
+  }
+
+  .media + .body {
+    padding-top: var(--space-64);
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: minmax(0, 720px) 384px;
+    justify-content: space-between;
+    align-items: start;
+    gap: var(--space-48);
+    padding-bottom: var(--space-96);
+  }
+
+  .content {
+    display: grid;
+    gap: var(--space-24);
+  }
+
+  .content :global(h2) {
+    margin-top: var(--space-24);
+    font: 700 var(--text-h2) / 1.2 var(--font-display);
+    color: var(--color-text);
+  }
+
+  .details {
+    display: grid;
+    gap: var(--space-24);
+    padding: var(--space-32);
+    border-radius: var(--radius-xl);
+    background: var(--color-surface-raised);
+  }
+
+  .details dl {
+    display: grid;
+    gap: var(--space-16);
+    margin: 0;
+  }
+
+  .details dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-16);
+    text-align: right;
+  }
+
+  .screenshots {
+    display: grid;
+    gap: var(--space-32);
+    padding-bottom: var(--space-96);
+  }
+
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-24);
+  }
+
+  .shots :global(img) {
+    border-radius: var(--radius-xl);
+  }
+
+  .next {
+    background: var(--color-surface);
+  }
+
+  .next-inner {
+    display: grid;
+    gap: var(--space-32);
+    padding-block: var(--space-64) var(--space-96);
+  }
+
+  .next-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-16);
+  }
+
+  @media (max-width: 1100px) {
+    .body {
+      grid-template-columns: 1fr;
+    }
+
+    .details {
+      max-width: 480px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .media + .body {
+      padding-top: var(--space-48);
+    }
+
+    .body {
+      padding-bottom: var(--space-64);
+    }
+
+    .shots {
+      grid-template-columns: 1fr;
+    }
+
+    .next-inner {
+      padding-block: var(--space-48) var(--space-64);
+    }
+  }
+</style>

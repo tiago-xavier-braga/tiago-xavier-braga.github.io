@@ -1,0 +1,78 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  repo: CollectionEntry<'repos'>;
+  showTopics?: boolean;
+}
+
+const { repo, showTopics = false } = Astro.props;
+const { name, description, url, language, stars, topics } = repo.data;
+---
+
+<article class="repo reveal">
+  <h3 class="h3"><a href={url}>{name}</a></h3>
+  <p class="description body-sm muted">{description}</p>
+  {showTopics && topics.length > 0 && <ul class="tags">{topics.map((topic) => <li class="tag">{topic}</li>)}</ul>}
+  <p class="meta caption muted">
+    <span class="language">{language}</span>
+    <span aria-label={`${stars} stars`}>★ {stars}</span>
+  </p>
+</article>
+
+<style>
+  .repo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    padding: 28px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    transition: box-shadow 0.2s, background 0.2s;
+  }
+
+  .repo:hover {
+    background: var(--color-surface-raised);
+    box-shadow: var(--shadow-3);
+  }
+
+  .repo:focus-within {
+    box-shadow: var(--shadow-3), var(--focus-ring);
+  }
+
+  a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  a:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .description {
+    flex: 1;
+  }
+
+  .meta {
+    display: flex;
+    gap: 20px;
+    padding-top: var(--space-8);
+  }
+
+  .language {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .language::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent-2);
+  }
+</style>

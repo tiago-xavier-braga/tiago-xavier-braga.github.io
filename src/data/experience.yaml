@@ -1,0 +1,18 @@
+- id: xavi-games
+  order: 1
+  company: Xavi Games
+  role: Indie Game Developer & Founder
+  period: 2025 — Present
+  description: "End-to-end from concept to release: programming, game design and publishing. WebGL games with CrazyGames SDK, online multiplayer with Netcode and Godot 4 addons."
+- id: haus
+  order: 2
+  company: Haus
+  role: Unity Developer
+  period: 2023 — Present
+  description: 10+ VR, AR and MR training simulators for Globo, Gerdau, Aperam and Usiminas, including defensive driving and heavy machinery with high-precision physics.
+- id: pequi-hills
+  order: 3
+  company: Pequi Hills Studio
+  role: Unity Developer & Co-founder
+  period: 2022 — 2024
+  description: Gameplay programming and design of core mechanics in Unity and C#.
