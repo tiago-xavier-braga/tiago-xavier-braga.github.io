@@ -1,27 +1,38 @@
 # tiago-xavier-braga.github.io
 
-Personal portfolio website: shipped games, experience and contact.
+Personal portfolio: games, XR training simulators, open source tools and contact.
 
 Live at https://tiago-xavier-braga.github.io/
 
-## Structure
+Built with [Astro](https://astro.build/). The design lives in Penpot (site file, pages **Home** and **Styleguide**).
 
-- `index.html`: home page
-- `projects.html`: projects page
-- `data/profile.json`: all site content (profile, experience, projects, links)
-- `js/`: page scripts
-- `style/`: stylesheets, with design tokens in `tokens.css`
+## Content
+
+| What | Where |
+|---|---|
+| Projects (one page each) | `src/content/projects/*.md` |
+| Name, headline, stats, about | `src/data/profile.yaml` |
+| Experience | `src/data/experience.yaml` |
+| Contact and link-in-bio entries | `src/data/links.yaml` |
+| Repositories | `src/data/repos.yaml` |
+
+Schemas are in `src/content.config.ts`. An invalid file fails the build. Links must be `https://` or `mailto:`.
+
+To show the "Download CV" buttons, set `cv` in `profile.yaml`.
+
+## Pages
+
+`/`, `/projects/`, `/projects/<slug>/`, `/repos/`, `/links/` and a 404 page. `/projects.html` redirects to `/projects/`.
 
 ## Running locally
 
-The pages load `data/profile.json` with `fetch`, so open them through a local server instead of the file system:
-
 ```sh
-python -m http.server
+npm install
+npm run dev
 ```
 
-Then open http://localhost:8000/.
+`npm run build` type-checks and builds to `dist/`.
 
 ## Deploy
 
-GitHub Pages publishes the `main` branch from the repository root on every push.
+Every push to `main` builds and deploys with GitHub Actions (`.github/workflows/deploy.yml`). The repository's Pages source must be set to **GitHub Actions**.
