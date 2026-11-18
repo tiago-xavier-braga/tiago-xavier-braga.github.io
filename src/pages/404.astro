@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
 ---
 
 <Base title="Page not found">
   <section class="container stage">
     <div class="card">
-      <div class="mark" aria-hidden="true"></div>
+      <Icon name="bird" size={96} strokeWidth={0.75} />
       <p class="overline">Error 404</p>
       <h1 class="h1">This page <em class="hl">flew</em> away.</h1>
       <p class="muted">The page you're looking for doesn't exist or has moved.</p>
@@ -34,13 +35,6 @@ import Base from '../layouts/Base.astro';
     border-radius: var(--radius-xl);
     background: var(--color-surface-raised);
     text-align: center;
-  }
-
-  .mark {
-    width: 120px;
-    height: 120px;
-    border-radius: var(--radius-full);
-    background: var(--color-accent);
   }
 
   .actions {

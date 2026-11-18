@@ -1,10 +1,11 @@
 ---
 interface Props {
-  name: 'arrow-right' | 'arrow-left' | 'menu' | 'close' | 'play';
+  name: 'arrow-right' | 'arrow-left' | 'menu' | 'close' | 'play' | 'bird';
   size?: number;
+  strokeWidth?: number;
 }
 
-const { name, size = 16 } = Astro.props;
+const { name, size = 16, strokeWidth = 2 } = Astro.props;
 
 const paths = {
   'arrow-right': ['M5 12h14', 'm12 5 7 7-7 7'],
@@ -12,6 +13,14 @@ const paths = {
   menu: ['M4 6h16', 'M4 12h16', 'M4 18h16'],
   close: ['M18 6 6 18', 'm6 6 12 12'],
   play: ['M6 3 20 12 6 21Z'],
+  bird: [
+    'M16 7h.01',
+    'M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20',
+    'm20 7 2 .5-2 .5',
+    'M10 18v3',
+    'M14 17.75V21',
+    'M7 18a6 6 0 0 0 3.84-10.61',
+  ],
 };
 ---
 
@@ -21,7 +30,7 @@ const paths = {
   viewBox="0 0 24 24"
   fill={name === 'play' ? 'currentColor' : 'none'}
   stroke="currentColor"
-  stroke-width="2"
+  stroke-width={strokeWidth}
   stroke-linecap="round"
   stroke-linejoin="round"
   aria-hidden="true"
